@@ -18,6 +18,7 @@ const brickPadding = 10;
 const brickOffsetTop = 30;
 const birckOffsetLeft = 30;
 let ballColor = "0095DD";
+let score = 0;
 
 const bricks = [];
 
@@ -54,6 +55,24 @@ const changeBallColor = () => {
   ballColor = "#0095DD";
 };
 
+const drawWinMsg = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillText(
+    `Congratualations you have broken out!`,
+    canvas.width / 2,
+    canvas.height / 2
+  );
+};
+
+const drawGameOverMsg = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillText(`Game Over!`, canvas.width / 2, canvas.height / 2);
+};
+
 const collisionDetection = () => {
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
@@ -67,13 +86,24 @@ const collisionDetection = () => {
         ) {
           dy = -dy;
           b.status = 0;
+          score++;
           ballColor = "yellow";
           setTimeout(changeBallColor, 200);
+          if (score == brickColumnCount * brickRowCount) {
+            drawWinMsg();
+          }
         }
       }
     }
   }
 };
+
+const drawScore = () => {
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "#0095DD";
+  ctx.fillText(`Score: ${score}`, 8, 20);
+};
+
 const drawBall = () => {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -112,6 +142,7 @@ const draw = () => {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall();
   drawPaddle();
+  drawScore();
   collisionDetection();
   drawBricks();
 
@@ -126,7 +157,8 @@ const draw = () => {
         dy = -dy;
       }
     } else {
-      alert("GAME OVER");
+      drawGameOverMsg();
+      score = 0;
       document.location.reload();
       clearInterval(interval);
     }
@@ -143,7 +175,6 @@ const draw = () => {
       paddleX = 0;
     }
   }
-
   x += dx;
   y += dy;
 };
