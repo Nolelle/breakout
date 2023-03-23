@@ -17,6 +17,7 @@ const brickHeight = 20;
 const brickPadding = 10;
 const brickOffsetTop = 30;
 const birckOffsetLeft = 30;
+let ballColor = "0095DD";
 
 const bricks = [];
 
@@ -49,6 +50,10 @@ const keyUpHandler = (e) => {
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
 
+const changeBallColor = () => {
+  ballColor = "#0095DD";
+};
+
 const collisionDetection = () => {
   for (let c = 0; c < brickColumnCount; c++) {
     for (let r = 0; r < brickRowCount; r++) {
@@ -62,6 +67,8 @@ const collisionDetection = () => {
         ) {
           dy = -dy;
           b.status = 0;
+          ballColor = "yellow";
+          setTimeout(changeBallColor, 200);
         }
       }
     }
@@ -70,7 +77,7 @@ const collisionDetection = () => {
 const drawBall = () => {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-  ctx.fillStyle = "0095DD";
+  ctx.fillStyle = ballColor;
   ctx.fill();
   ctx.closePath();
 };
