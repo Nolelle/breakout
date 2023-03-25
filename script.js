@@ -10,8 +10,8 @@ const paddleWidth = 75;
 let paddleX = (canvas.width - paddleWidth) / 2;
 let leftPressed = false;
 let rightPressed = false;
-const brickRowCount = 3;
-const brickColumnCount = 5;
+const brickRowCount = 2;
+const brickColumnCount = 2;
 const brickWidth = 75;
 const brickHeight = 20;
 const brickPadding = 10;
@@ -72,6 +72,9 @@ const drawWinMsg = () => {
     canvas.width / 2,
     canvas.height / 2
   );
+  score = 0;
+  document.location.reload();
+  clearInterval(interval);
 };
 
 const drawGameOverMsg = () => {
@@ -97,7 +100,7 @@ const collisionDetection = () => {
           score++;
           ballColor = "yellow";
           setTimeout(changeBallColor, 200);
-          if (score == brickColumnCount * brickRowCount) {
+          if (score === brickColumnCount * brickRowCount) {
             drawWinMsg();
           }
         }
